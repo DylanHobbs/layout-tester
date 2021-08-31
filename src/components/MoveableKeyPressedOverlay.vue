@@ -62,6 +62,7 @@ export default {
     margin-right: auto;
     position: absolute;
     justify-content: center;
+    z-index: 100;
 }
 
 #overlay > h1 {

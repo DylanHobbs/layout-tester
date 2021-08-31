@@ -51,6 +51,8 @@ export default {
   },
   methods: {
     fetch(source) {
+      this.current = 0;
+      this.loading = true;
       switch (source) {
         case 'bacon':
           this.fetchBacon();
@@ -112,6 +114,9 @@ export default {
             }
           } else {
             this.current += 1;
+            if (this.current >= this.text.length) {
+              this.fetch(this.textSource);
+            }
           }
         }
       }
@@ -137,7 +142,7 @@ export default {
       }
     },
     updatePosition() {
-      if (this.$refs.current) {
+      if (this.$refs.current && this.$refs.current[0]) {
         this.pos = {
           left: this.$refs.current[0].getBoundingClientRect().left,
           top: this.$refs.current[0].getBoundingClientRect().top,

@@ -16,7 +16,7 @@ export default new Vuex.Store({
       inputLayout: 'qwerty', // Input keyboard layout
       outputLayout: 'qwerty', // Output keyboard layout
       showKeyboard: true, // Toggle for helper keyboard graphic
-      textSource: 'bacon',
+      textSource: 'simpsons',
       textSources: [
         { name: 'Bacon Ipsum', value: 'bacon' },
         { name: 'Simpsons', value: 'simpsons' },
