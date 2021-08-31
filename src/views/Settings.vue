@@ -53,7 +53,7 @@ export default {
     },
     outputLayout: {
       get() {
-        return this.$store.state.outputLayout;
+        return this.$store.state.settings.outputLayout;
       },
       set(value) {
         this.$store.commit('setOutput', value);
@@ -61,7 +61,7 @@ export default {
     },
     inputLayout: {
       get() {
-        return this.$store.state.inputLayout;
+        return this.$store.state.settings.inputLayout;
       },
       set(value) {
         console.log(value);

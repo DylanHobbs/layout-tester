@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     nextKey: null, // Next correct keypress
-    inputLayout: 'qwerty',
-    outputLayout: 'qwerty',
     settings: {
       showFollowOverlay: true, // Toggle for following carrot helper overlay
       showMoveableOverlay: false, // Toggle for moveable helper overlay
@@ -226,7 +226,7 @@ export default new Vuex.Store({
     },
     setOutput(state, outputLayout) {
       if (outputLayout in state) {
-        state.outputLayout = outputLayout;
+        state.settings.outputLayout = outputLayout;
         const outputMap = state[outputLayout];
         const keys = Object.keys(state.keymap);
         keys.forEach((key, index) => {
@@ -236,7 +236,7 @@ export default new Vuex.Store({
     },
     setInput(state, inputLayout) {
       if (inputLayout in state) {
-        state.inputLayout = inputLayout;
+        state.settings.inputLayout = inputLayout;
         const inputMap = state[inputLayout];
         const newKeymap = {};
         const values = Object.values(state.keymap);
