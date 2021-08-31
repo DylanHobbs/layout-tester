@@ -17,6 +17,11 @@ export default new Vuex.Store({
       inputLayout: 'qwerty',
       outputLayout: 'qwerty',
     },
+    supportedLayouts: [
+      { name: 'Qwerty', value: 'qwerty' },
+      { name: 'Dvorak', value: 'dvorak' },
+      { name: 'Miryoku', value: 'miryoku' },
+    ],
     pos: {
       left: 0,
       top: 0,

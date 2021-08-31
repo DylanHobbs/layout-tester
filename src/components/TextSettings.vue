@@ -14,7 +14,13 @@
               expanded
               v-model="inputLayout"
             >
-              <option value="qwerty">Qwerty</option>
+              <option
+                v-for="layout in supportedLayouts"
+                :key="layout.value"
+                :value="layout.value"
+              >
+                {{ layout.name }}
+              </option>
             </b-select>
           </b-field>
         </div>
@@ -26,8 +32,13 @@
               expanded
               v-model="outputLayout"
             >
-              <option value="qwerty">Qwerty</option>
-              <option value="dvorak">Dvorak</option>
+              <option
+                v-for="layout in supportedLayouts"
+                :key="layout.value"
+                :value="layout.value"
+              >
+                {{ layout.name }}
+              </option>
             </b-select>
           </b-field>
         </div>
@@ -52,7 +63,7 @@
   </div>
 </template>
 <script>
-// import { mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'TextSettings',
@@ -62,6 +73,7 @@ export default {
   mounted() {},
   methods: {},
   computed: {
+    ...mapState(['supportedLayouts']),
     showFollowing: {
       get() {
         return this.$store.state.settings.showFollowOverlay;
