@@ -7,13 +7,19 @@
         class="tile is-vertical is-parent"
       >
         <div class="tile is-child box">
-          <p :ref="getKeyAtIndex(value)" class="title">{{ getKeyAtIndex(value) }}</p>
+          <p :ref="getKeyAtIndex(value)" class="title">
+            {{ getKeyAtIndex(value) }}
+          </p>
         </div>
         <div class="tile is-child box">
-          <p :ref="getKeyAtIndex(value + 10)" class="title">{{ getKeyAtIndex(value + 10) }}</p>
+          <p :ref="getKeyAtIndex(value + 10)" class="title">
+            {{ getKeyAtIndex(value + 10) }}
+          </p>
         </div>
         <div class="tile is-child box">
-          <p :ref="getKeyAtIndex(value + 20)" class="title">{{ getKeyAtIndex(value + 20) }}</p>
+          <p :ref="getKeyAtIndex(value + 20)" class="title">
+            {{ getKeyAtIndex(value + 20) }}
+          </p>
         </div>
       </div>
     </div>
@@ -28,6 +34,7 @@ export default {
   data() {
     return {
       rows: [0, 1, 2, 3, 4, -100, 5, 6, 7, 8, 9],
+      oldRef: null,
     };
   },
   methods: {
@@ -42,21 +49,39 @@ export default {
       }
       return null;
     },
-  },
-  watch: {
-    nextKey(newValue, oldValue) {
-      if (oldValue) {
+    highlightKeys(newValue, oldValue) {
+      if (oldValue && this.$refs[oldValue.toUpperCase()]) {
         oldValue = oldValue.toUpperCase();
         this.$refs[oldValue][0].parentNode.classList.remove('flash');
       }
-      if (newValue) {
+      if (newValue && this.$refs[newValue.toUpperCase()]) {
         newValue = newValue.toUpperCase();
+        // eslint-disable-next-line prefer-destructuring
+        this.oldRef = this.$refs[newValue][0];
         this.$refs[newValue][0].parentNode.classList.add('flash');
       }
     },
   },
+  watch: {
+    nextKey(newValue, oldValue) {
+      this.highlightKeys(newValue, oldValue);
+    },
+    outputLayout() {
+      // Layout has changed, recalulcate flashing key
+      if (this.oldRef) {
+        this.oldRef.parentNode.classList.remove('flash');
+      }
+      this.$nextTick(() => {
+        this.highlightKeys(this.nextKey, null);
+      });
+    },
+  },
   computed: {
-    ...mapState(['keymap', 'nextKey']),
+    ...mapState({
+      keymap: (state) => state.keymap,
+      nextKey: (state) => state.nextKey,
+      outputLayout: (state) => state.outputLayout,
+    }),
   },
 };
 </script>
@@ -74,8 +99,14 @@ export default {
 }
 
 @keyframes pulse {
-  0% {background-color: white;}
-  50% {background-color: lightgreen;}
-  100% {background-color: white;}
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: lightgreen;
+  }
+  100% {
+    background-color: white;
+  }
 }
 </style>
