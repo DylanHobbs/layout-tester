@@ -62,9 +62,12 @@ export default {
         });
       });
       this.text = finalFormat;
+      // Set the first key
+      this.$store.commit('seNextKey', this.text[0].letter);
+      this.updatePosition();
     },
     keypress(e) {
-      this.getPos();
+      this.updatePosition();
       e.preventDefault();
       const keyPressed = this.checkMap(e.key);
       this.$store.commit('setLastKeyPressed', keyPressed);
@@ -84,6 +87,8 @@ export default {
           }
         }
       }
+      // Current set to correct value
+      this.$store.commit('seNextKey', this.text[this.current].letter);
     },
     checkMap(letter) {
       const compare = letter.toUpperCase();
@@ -103,7 +108,7 @@ export default {
         this.text[this.current].class = 'error';
       }
     },
-    getPos() {
+    updatePosition() {
       if (this.$refs.current) {
         this.pos = {
           left: this.$refs.current[0].getBoundingClientRect().left,

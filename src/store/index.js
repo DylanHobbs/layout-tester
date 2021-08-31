@@ -5,18 +5,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    counter: 0,
-    size: 175,
+    nextKey: null, // Next correct keypress
     inputLayout: 'qwerty',
     outputLayout: 'qwerty',
     settings: {
-      showFollowOverlay: true,
-      showMoveableOverlay: false,
-      size: 175,
-      font: 'default',
-      inputLayout: 'qwerty',
-      outputLayout: 'qwerty',
-      showKeyboard: true,
+      showFollowOverlay: true, // Toggle for following carrot helper overlay
+      showMoveableOverlay: false, // Toggle for moveable helper overlay
+      size: 175, // Text size in percentage for text block
+      font: 'default', // Font used in text block
+      inputLayout: 'qwerty', // Input keyboard layout
+      outputLayout: 'qwerty', // Output keyboard layout
+      showKeyboard: true, // Toggle for helper keyboard graphic
     },
     supportedLayouts: [
       { name: 'Qwerty', value: 'qwerty' },
@@ -203,6 +202,9 @@ export default new Vuex.Store({
   mutations: {
     increment(state) {
       state.counter += 1;
+    },
+    seNextKey(state, key) {
+      state.nextKey = key;
     },
     setSize(state, size) {
       state.settings.size = size;
