@@ -203,7 +203,7 @@ export default new Vuex.Store({
     increment(state) {
       state.counter += 1;
     },
-    seNextKey(state, key) {
+    setNextKey(state, key) {
       state.nextKey = key;
     },
     setSize(state, size) {
