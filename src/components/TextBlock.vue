@@ -42,16 +42,44 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get('https://baconipsum.com/api/?type=all-meat&paras=2')
-      .then((res) => {
-        this.createTextObject(res.data);
-        this.loading = false;
-      });
+    this.fetch(this.textSource);
+  },
+  watch: {
+    textSource(newValue) {
+      this.fetch(newValue);
+    },
   },
   methods: {
+    fetch(source) {
+      switch (source) {
+        case 'bacon':
+          this.fetchBacon();
+          break;
+        case 'simpsons':
+          this.fetchSimpsons();
+          break;
+        default:
+          break;
+      }
+    },
+    fetchBacon() {
+      axios
+        .get('https://baconipsum.com/api/?type=all-meat&paras=1')
+        .then((res) => {
+          this.createTextObject(res.data[0]);
+          this.loading = false;
+        });
+    },
+    fetchSimpsons() {
+      axios
+        .get('https://thesimpsonsquoteapi.glitch.me/quotes')
+        .then((res) => {
+          this.createTextObject(res.data[0].quote);
+          this.loading = false;
+        });
+    },
     createTextObject(text) {
-      let textArray = text.join('\n');
+      let textArray = text;
       textArray = textArray.split('');
       const finalFormat = [];
       textArray.forEach((element) => {
@@ -122,6 +150,7 @@ export default {
       keymap: (state) => state.keymap,
       size: (state) => state.settings.size,
       showMoveable: (state) => state.settings.showMoveableOverlay,
+      textSource: (state) => state.settings.textSource,
     }),
     pos: {
       get() {

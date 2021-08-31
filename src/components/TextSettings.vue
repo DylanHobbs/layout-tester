@@ -43,6 +43,22 @@
           </b-field>
         </div>
       </div>
+      <b-field label="Text Source">
+        <b-select
+          placeholder="Large"
+          size="is-large"
+          expanded
+          v-model="textSource"
+        >
+          <option
+            v-for="source in textSources"
+            :key="source.value"
+            :value="source.value"
+          >
+            {{ source.name }}
+          </option>
+        </b-select>
+      </b-field>
       <b-field label="Text Size (%)">
         <b-numberinput step="5" v-model="size"></b-numberinput>
       </b-field>
@@ -78,7 +94,21 @@ export default {
   mounted() {},
   methods: {},
   computed: {
-    ...mapState(['supportedLayouts']),
+    ...mapState({
+      supportedLayouts: (state) => state.supportedLayouts,
+      textSources: (state) => state.settings.textSources,
+    }),
+    // ...mapState({
+    //   supportedLayouts: (state) => state.supportedLayouts,
+    // }),
+    textSource: {
+      get() {
+        return this.$store.state.settings.textSource;
+      },
+      set(value) {
+        this.$store.commit('setTextSource', value);
+      },
+    },
     showKeyboard: {
       get() {
         return this.$store.state.settings.showKeyboard;

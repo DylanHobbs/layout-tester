@@ -80,7 +80,7 @@ export default {
     ...mapState({
       keymap: (state) => state.keymap,
       nextKey: (state) => state.nextKey,
-      outputLayout: (state) => state.outputLayout,
+      outputLayout: (state) => state.settings.outputLayout,
     }),
   },
 };

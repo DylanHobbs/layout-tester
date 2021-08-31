@@ -16,6 +16,11 @@ export default new Vuex.Store({
       inputLayout: 'qwerty', // Input keyboard layout
       outputLayout: 'qwerty', // Output keyboard layout
       showKeyboard: true, // Toggle for helper keyboard graphic
+      textSource: 'bacon',
+      textSources: [
+        { name: 'Bacon Ipsum', value: 'bacon' },
+        { name: 'Simpsons', value: 'simpsons' },
+      ],
     },
     supportedLayouts: [
       { name: 'Qwerty', value: 'qwerty' },
@@ -305,8 +310,8 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
-    increment(state) {
-      state.counter += 1;
+    setTextSource(state, value) {
+      state.settings.textSource = value;
     },
     setNextKey(state, key) {
       state.nextKey = key;
@@ -352,6 +357,7 @@ export default new Vuex.Store({
       }
     },
   },
+  getters: {},
   actions: {},
   modules: {},
 });
