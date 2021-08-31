@@ -1,10 +1,34 @@
 <template>
-  <section class="section">
-      <b-field label="Text Size (%)">
-            <b-numberinput step="5" v-model="size">
-            </b-numberinput>
+  <div class="container">
+    <h1>Keymap</h1>
+    <div class="columns">
+      <div class="column">
+        <b-field label="Current Layout">
+          <b-select
+            placeholder="Large"
+            size="is-large"
+            expanded
+            v-model="inputLayout"
+          >
+            <option value="qwerty">Qwerty</option>
+          </b-select>
         </b-field>
-  </section>
+      </div>
+      <div class="column">
+        <b-field label="Output Layout">
+          <b-select
+            placeholder="Large"
+            size="is-large"
+            expanded
+            v-model="outputLayout"
+          >
+            <option value="qwerty">Qwerty</option>
+            <option value="dvorak">Dvorak</option>
+          </b-select>
+        </b-field>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 // import { mapState } from 'vuex';
@@ -19,7 +43,7 @@ export default {
   mounted() {},
   methods: {},
   computed: {
-    size: {
+    map: {
       get() {
         return this.$store.state.size;
       },
@@ -27,25 +51,22 @@ export default {
         this.$store.commit('setSize', value);
       },
     },
+    outputLayout: {
+      get() {
+        return this.$store.state.outputLayout;
+      },
+      set(value) {
+        this.$store.commit('setOutput', value);
+      },
+    },
+    inputLayout: {
+      get() {
+        return this.$store.state.inputLayout;
+      },
+      set(value) {
+        console.log(value);
+      },
+    },
   },
 };
 </script>
-<style>
-.typing {
-  font-size: 140%;
-}
-span {
-  padding: 0px;
-  margin: 0px;
-}
-
-.current {
-  background: lightblue;
-}
-.error {
-  background: lightcoral;
-}
-.success {
-  background: lightgreen;
-}
-</style>

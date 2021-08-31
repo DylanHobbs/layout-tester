@@ -1,5 +1,6 @@
 <template>
   <section class="container">
+    <MoveableKeyPressedOverlay v-if="showMoveable"></MoveableKeyPressedOverlay>
     <div
       class="box code typing"
       v-bind:style="{ fontSize: size + '%' }"
@@ -10,6 +11,7 @@
         <span
           v-for="(entry, key) in this.text"
           :class="current === key ? 'current' : entry.class"
+          :ref="current === key ? 'current' : null"
           :key="key"
           v-html="entry.letter"
         ></span>
@@ -19,9 +21,14 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
+import MoveableKeyPressedOverlay from './MoveableKeyPressedOverlay.vue';
 
 export default {
   name: 'TextBlock',
+  components: {
+    MoveableKeyPressedOverlay,
+  },
   data() {
     return {
       text: [],
@@ -30,7 +37,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios
+    axios
       .get('https://baconipsum.com/api/?type=all-meat&paras=2')
       .then((res) => {
         this.createTextObject(res.data);
@@ -51,12 +58,13 @@ export default {
       this.text = finalFormat;
     },
     keypress(e) {
+      this.getPos();
       e.preventDefault();
-      console.log(this.current);
+      const keyPressed = this.checkMap(e.key);
+      this.$store.commit('setLastKeyPressed', keyPressed);
       if (this.current >= 0) {
-        console.log(e);
         if (e.keyCode !== 16) {
-          this.checkKey(e.key);
+          this.checkKey(keyPressed);
           if (e.keyCode === 8) {
             if (this.current === 0) {
               this.text[this.current].class = ''; // Remove styling from entry on backspace
@@ -71,6 +79,16 @@ export default {
         }
       }
     },
+    checkMap(letter) {
+      const compare = letter.toUpperCase();
+      if (compare in this.keymap) {
+        if (letter === compare) {
+          return this.keymap[compare];
+        }
+        return this.keymap[compare].toLowerCase();
+      }
+      return letter;
+    },
     checkKey(letter) {
       if (this.text[this.current].letter === letter) {
         this.text[this.current].class = 'success';
@@ -79,8 +97,30 @@ export default {
         this.text[this.current].class = 'error';
       }
     },
+    getPos() {
+      if (this.$refs.current) {
+        this.pos = {
+          left: this.$refs.current[0].getBoundingClientRect().left,
+          top: this.$refs.current[0].getBoundingClientRect().top,
+        };
+      }
+    },
   },
-  computed: mapState(['size']),
+  computed: {
+    ...mapState({
+      keymap: (state) => state.keymap,
+      size: (state) => state.settings.size,
+      showMoveable: (state) => state.settings.showMoveableOverlay,
+    }),
+    pos: {
+      get() {
+        return this.$store.state.pos;
+      },
+      set(value) {
+        this.$store.commit('setPosition', value);
+      },
+    },
+  },
 };
 </script>
 <style>
