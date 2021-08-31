@@ -16,11 +16,13 @@ export default new Vuex.Store({
       font: 'default',
       inputLayout: 'qwerty',
       outputLayout: 'qwerty',
+      showKeyboard: true,
     },
     supportedLayouts: [
       { name: 'Qwerty', value: 'qwerty' },
       { name: 'Dvorak', value: 'dvorak' },
       { name: 'Miryoku', value: 'miryoku' },
+      { name: 'Colemak', value: 'colemak' },
     ],
     pos: {
       left: 0,
@@ -163,6 +165,40 @@ export default new Vuex.Store({
       'CONTROL',
       'SHIFT',
     ],
+    colemak: [
+      'Q',
+      'E',
+      'F',
+      'P',
+      'G',
+      'J',
+      'L',
+      'U',
+      'Y',
+      ';',
+      'A',
+      'R',
+      'S',
+      'T',
+      'D',
+      'H',
+      'N',
+      'E',
+      'I',
+      'O',
+      'Z',
+      'X',
+      'C',
+      'V',
+      'B',
+      'K',
+      'M',
+      ',',
+      '.',
+      '/',
+      'CONTROL',
+      'SHIFT',
+    ],
   },
   mutations: {
     increment(state) {
@@ -170,6 +206,9 @@ export default new Vuex.Store({
     },
     setSize(state, size) {
       state.settings.size = size;
+    },
+    setShowKeyboard(state, value) {
+      state.settings.showKeyboard = value;
     },
     setLastKeyPressed(state, key) {
       state.lastKeyPressed = key;

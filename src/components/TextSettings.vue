@@ -56,6 +56,11 @@
           >Show Following Key Pressed Overlay</b-switch
         >
       </b-field>
+      <b-field>
+        <b-switch v-model="showKeyboard" size="is-large"
+          >Show Helper Keyboard</b-switch
+        >
+      </b-field>
     </section>
     <footer class="modal-card-foot">
       <b-button type="is-primary" label="Close" @click="$emit('close')" />
@@ -74,6 +79,14 @@ export default {
   methods: {},
   computed: {
     ...mapState(['supportedLayouts']),
+    showKeyboard: {
+      get() {
+        return this.$store.state.settings.showKeyboard;
+      },
+      set(value) {
+        this.$store.commit('setShowKeyboard', value);
+      },
+    },
     showFollowing: {
       get() {
         return this.$store.state.settings.showFollowOverlay;

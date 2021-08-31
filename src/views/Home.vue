@@ -8,7 +8,7 @@
     >
     <TextBlock></TextBlock>
     <FollowKeyPressedOverlay v-if="showFollowOverlay"></FollowKeyPressedOverlay>
-
+    <Keyboard v-if="showKeyboard"></Keyboard>
     <b-modal
       v-model="isSettingsActive"
       has-modal-card
@@ -30,6 +30,7 @@ import { mapState } from 'vuex';
 import TextBlock from '../components/TextBlock.vue';
 import TextSettings from '../components/TextSettings.vue';
 import FollowKeyPressedOverlay from '../components/FollowKeyPressedOverlay.vue';
+import Keyboard from '../components/Keyboard.vue';
 
 export default {
   name: 'Home',
@@ -41,11 +42,13 @@ export default {
   components: {
     TextBlock,
     TextSettings,
+    Keyboard,
     FollowKeyPressedOverlay,
   },
   computed: {
     ...mapState({
       showFollowOverlay: (state) => state.settings.showFollowOverlay,
+      showKeyboard: (state) => state.settings.showKeyboard,
     }),
   },
 };
