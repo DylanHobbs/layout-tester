@@ -1,7 +1,9 @@
 <template>
   <section class="container">
     <MoveableKeyPressedOverlay v-if="showMoveable"></MoveableKeyPressedOverlay>
+    <Loading v-if="loading"></Loading>
     <div
+      v-else
       class="box code typing"
       v-bind:style="{ fontSize: size + '%' }"
       tabindex="0"
@@ -23,17 +25,20 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
 import MoveableKeyPressedOverlay from './MoveableKeyPressedOverlay.vue';
+import Loading from './Loading.vue';
 
 export default {
   name: 'TextBlock',
   components: {
     MoveableKeyPressedOverlay,
+    Loading,
   },
   data() {
     return {
       text: [],
       current: 0,
       error: false,
+      loading: true,
     };
   },
   mounted() {
@@ -41,6 +46,7 @@ export default {
       .get('https://baconipsum.com/api/?type=all-meat&paras=2')
       .then((res) => {
         this.createTextObject(res.data);
+        this.loading = false;
       });
   },
   methods: {
