@@ -1,4 +1,4 @@
-# typer
+# Layout Typing Tester
 
 ## Project setup
 ```
