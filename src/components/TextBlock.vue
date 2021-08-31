@@ -63,7 +63,7 @@ export default {
       });
       this.text = finalFormat;
       // Set the first key
-      this.$store.commit('seNextKey', this.text[0].letter);
+      this.$store.commit('setNextKey', this.text[0].letter);
       this.updatePosition();
     },
     keypress(e) {
@@ -88,7 +88,7 @@ export default {
         }
       }
       // Current set to correct value
-      this.$store.commit('seNextKey', this.text[this.current].letter);
+      this.$store.commit('setNextKey', this.text[this.current].letter);
     },
     checkMap(letter) {
       const compare = letter.toUpperCase();

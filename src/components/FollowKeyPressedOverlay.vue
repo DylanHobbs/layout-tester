@@ -19,7 +19,7 @@ export default {
       return this.pos.top - 70;
     },
     posLeft() {
-      return this.pos.left;
+      return this.pos.left - 15;
     },
     displayKey() {
       if (this.lastKeyPressed === 'Backspace') {
